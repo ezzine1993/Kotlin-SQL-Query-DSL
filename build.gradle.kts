@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.ezzine1993"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -29,8 +29,8 @@ publishing {
             from(components["java"])
 
             groupId = "com.github.ezzine1993"
-            artifactId = "Kotlin-SQL-Query-DSL"
-            version = "1.0.0"
+            artifactId = "kotlin-sql-query-dsl"
+            version = "1.0.1"
         }
     }
 }
