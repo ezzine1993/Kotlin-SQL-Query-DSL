@@ -1,10 +1,10 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") version "1.9.25"
     `java-library`
     `maven-publish`
 }
 
-group = "h.ezz"
+group = "com.github.ezzine1993"
 version = "1.0.0"
 
 repositories {
@@ -28,8 +28,8 @@ publishing {
         create<MavenPublication>("release") {
             from(components["java"])
 
-            groupId = "h.ezz"
-            artifactId = "sqlQueryDSL"
+            groupId = "com.github.ezzine1993"
+            artifactId = "Kotlin-SQL-Query-DSL"
             version = "1.0.0"
         }
     }
