@@ -83,9 +83,8 @@ fun main() {
     val query = queryBuilder(pretty = true) {
         select {
             where {
-                OR( "1" AS "2")
-                wrap { OR("x") AS "1" }
-                OR("S")
+                "x" AS "dd" OR wrap { "x" LIKE "%%" OR "y" LIKE "%" }
+                AND("t" EQL 2)
             }
         }
     }
