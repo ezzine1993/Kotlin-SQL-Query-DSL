@@ -36,10 +36,10 @@ open class Expression(protected open var value: SQLiteral? = null) : SQLiteral {
     infix fun Any.X(right: Any?): SQLiteral = setOperator(name = "*", right = right)
     infix fun Any.EQL(right: Any?): SQLiteral = setOperator(name = "=", right = right)
     infix fun Any.BETWEEN(right: Any?): SQLiteral = setOperator(name = "BETWEEN", right = right)
-    infix fun Any.ANY(value: SQLiteral?): SQLiteral = setOperator(name = "ANY", right = value)
-    infix fun Any.ALL(value: SQLiteral?): SQLiteral = setOperator(name = "ALL", right = value)
-    infix fun Any.EXISTS(value: SQLiteral?): SQLiteral = setOperator(name = "EXISTS", right = value)
-    infix fun Any.CONCAT(value: SQLiteral?): SQLiteral = setOperator(name = "||", right = value)
+    infix fun Any.ANY(value: Any?): SQLiteral = setOperator(name = "ANY", right = value)
+    infix fun Any.ALL(value: Any?): SQLiteral = setOperator(name = "ALL", right = value)
+    infix fun Any.EXISTS(value: Any?): SQLiteral = setOperator(name = "EXISTS", right = value)
+    infix fun Any.CONCAT(value: Any?): SQLiteral = setOperator(name = "||", right = value)
 
     /**
      * Updates the current instance with a new `Operator` constructed using the
