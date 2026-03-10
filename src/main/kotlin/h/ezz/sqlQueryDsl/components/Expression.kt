@@ -1,5 +1,7 @@
 package h.ezz.sqlQueryDsl.components
 
+import h.ezz.sqlQueryDsl.queryBuilder
+
 
 /**
  * Represents an SQL expression used to build dynamically composable SQL queries.
@@ -17,27 +19,27 @@ package h.ezz.sqlQueryDsl.components
 open class Expression(protected open var value: SQLiteral? = null) : SQLiteral {
     override fun build(): String = value?.build() ?: Value(value = value).build()
 
-    infix fun Any.IN(right: Any): SQLiteral = setOperator(name = "IN", right = right)
-    infix fun Any.LIKE(right: Any): SQLiteral = setOperator(name = "LIKE", right = right)
-    infix fun Any.IS(right: Any): SQLiteral = setOperator(name = "IS", right = right)
-    infix fun Any.AND(right: Any): SQLiteral = setOperator(name = "AND", right = right)
-    infix fun Any.OR(right: Any): SQLiteral = setOperator(name = "OR", right = right)
-    infix fun Any.NOT(right: Any): SQLiteral = setOperator(name = "NOT", right = right)
-    infix fun Any.AS(right: Any): SQLiteral = setOperator(name = "AS", right = right)
-    infix fun Any.LESS(right: Any): SQLiteral = setOperator(name = "<", right = right)
-    infix fun Any.GREATER(right: Any): SQLiteral = setOperator(name = ">", right = right)
-    infix fun Any.LESS_OR_EQL(right: Any): SQLiteral = setOperator(name = "<=", right = right)
-    infix fun Any.GREATER_OR_EQL(right: Any): SQLiteral = setOperator(name = ">=", right = right)
-    infix fun Any.PLS(right: Any): SQLiteral = setOperator(name = "+", right = right)
-    infix fun Any.MOD(right: Any): SQLiteral = setOperator(name = "%", right = right)
-    infix fun Any.DIV(right: Any): SQLiteral = setOperator(name = "/", right = right)
-    infix fun Any.X(right: Any): SQLiteral = setOperator(name = "*", right = right)
-    infix fun Any.EQL(right: Any): SQLiteral = setOperator(name = "=", right = right)
-    infix fun Any.BETWEEN(right: Any): SQLiteral = setOperator(name = "BETWEEN", right = right)
-    infix fun Any.ANY(value: SQLiteral): SQLiteral = setOperator(name = "ANY", right = value)
-    infix fun Any.ALL(value: SQLiteral): SQLiteral = setOperator(name = "ALL", right = value)
-    infix fun Any.EXISTS(value: SQLiteral): SQLiteral = setOperator(name = "EXISTS", right = value)
-    infix fun Any.CONCAT(value: SQLiteral): SQLiteral = setOperator(name = "||", right = value)
+    infix fun Any.IN(right: Any?): SQLiteral = setOperator(name = "IN", right = right)
+    infix fun Any.LIKE(right: Any?): SQLiteral = setOperator(name = "LIKE", right = right)
+    infix fun Any.IS(right: Any??): SQLiteral = setOperator(name = "IS", right = right)
+    infix fun Any.AND(right: Any?): SQLiteral = setOperator(name = "AND", right = right)
+    infix fun Any.OR(right: Any?): SQLiteral = setOperator(name = "OR", right = right)
+    infix fun Any.NOT(right: Any?): SQLiteral = setOperator(name = "NOT", right = right)
+    infix fun Any.AS(right: Any?): SQLiteral = setOperator(name = "AS", right = right)
+    infix fun Any.LESS(right: Any?): SQLiteral = setOperator(name = "<", right = right)
+    infix fun Any.GREATER(right: Any?): SQLiteral = setOperator(name = ">", right = right)
+    infix fun Any.LESS_OR_EQL(right: Any?): SQLiteral = setOperator(name = "<=", right = right)
+    infix fun Any.GREATER_OR_EQL(right: Any?): SQLiteral = setOperator(name = ">=", right = right)
+    infix fun Any.PLS(right: Any?): SQLiteral = setOperator(name = "+", right = right)
+    infix fun Any.MOD(right: Any?): SQLiteral = setOperator(name = "%", right = right)
+    infix fun Any.DIV(right: Any?): SQLiteral = setOperator(name = "/", right = right)
+    infix fun Any.X(right: Any?): SQLiteral = setOperator(name = "*", right = right)
+    infix fun Any.EQL(right: Any?): SQLiteral = setOperator(name = "=", right = right)
+    infix fun Any.BETWEEN(right: Any?): SQLiteral = setOperator(name = "BETWEEN", right = right)
+    infix fun Any.ANY(value: SQLiteral?): SQLiteral = setOperator(name = "ANY", right = value)
+    infix fun Any.ALL(value: SQLiteral?): SQLiteral = setOperator(name = "ALL", right = value)
+    infix fun Any.EXISTS(value: SQLiteral?): SQLiteral = setOperator(name = "EXISTS", right = value)
+    infix fun Any.CONCAT(value: SQLiteral?): SQLiteral = setOperator(name = "||", right = value)
 
     /**
      * Updates the current instance with a new `Operator` constructed using the
@@ -49,14 +51,16 @@ open class Expression(protected open var value: SQLiteral? = null) : SQLiteral {
      * @param right The right-hand operand for the operator, to be converted into a [SQLiteral].
      * @return The newly created [SQLiteral] instance representing the updated operator.
      */
-    protected fun Any.setOperator(name: String, right: Any): SQLiteral =
-        updateValue(
+    protected fun Any.setOperator(name: String, right: Any?): SQLiteral {
+        val left  = if (this@Expression == this) (this as Expression).value() else this.toLiteral()
+        return updateValue(
             Operator(
                 name = name,
-                left = this.toLiteral(),
+                left = left,
                 right = right.toLiteral()
             )
         )
+    }
 
 
     /**

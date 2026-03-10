@@ -43,5 +43,7 @@ open class Arguments(val separator: String = " ", list: List<Any> = emptyList())
      * @return A string representing the constructed SQL expression, with each argument's
      * build representation concatenated using the specified separator.
      */
+
+
     override fun build(): String = arguments.joinToString(separator) { it.build() }
 }

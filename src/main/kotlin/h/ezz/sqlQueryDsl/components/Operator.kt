@@ -19,23 +19,31 @@ package h.ezz.sqlQueryDsl.components
  */
 open class Operator(
     override val name: String,
-    val left: SQLiteral,
+    val left: SQLiteral?,
     val right: SQLiteral,
     val separator: String = " "
 ) : Expression() {
 
 
     /**
-     * Builds a SQL expression string by concatenating the `build` results of the left and right operands,
-     * separated by the operator name and a defined separator.
+     * Builds a SQL expression string by concatenating the left operand, operator name, and right operand.
      *
-     * This method constructs the expression in the format:
-     * `<left operand><separator><operator name><separator><right operand>`.
+     * Combines the `left` operand's SQL representation, the operator name (`name`),
+     * and the `right` operand's SQL representation, separating the `left` and the `name`
+     * with the defined `separator`. If `left` is null, it omits it from the output.
      *
-     * @return A string representing the SQL expression combining the left operand, operator name, and right operand,
-     * formatted using the specified separator.
+     * @return The constructed SQL expression as a `String`.
      */
-    override fun build() = "${left.build()}$separator$name$separator${right.build()}"
+    override fun build(): String =
+        StringBuilder().apply {
+            left?.also {
+                append(it.build())
+                append(separator)
+            }
+            append(name)
+            append(separator)
+            append(right.build())
+        }.toString()
 
     /**
      * Retrieves the right-hand operand of the operator.
