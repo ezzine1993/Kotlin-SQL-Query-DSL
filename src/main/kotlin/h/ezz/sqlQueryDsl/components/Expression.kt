@@ -77,17 +77,3 @@ open class Expression(protected open var value: SQLiteral? = null) : SQLiteral {
     open fun value(): SQLiteral? = value
 
 }
-
-
-fun main() {
-    val query = queryBuilder(pretty = true) {
-        select {
-            where {
-                "x" AS "dd" OR wrap { "x" LIKE "%%" OR "y" LIKE "%" }
-                AND("t" EQL 2)
-            }
-        }
-    }
-
-    println(query.build())
-}
