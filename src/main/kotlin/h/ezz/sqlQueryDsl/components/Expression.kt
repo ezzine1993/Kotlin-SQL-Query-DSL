@@ -1,5 +1,6 @@
 package h.ezz.sqlQueryDsl.components
 
+import h.ezz.sqlQueryDsl.query.Select
 import h.ezz.sqlQueryDsl.queryBuilder
 
 
@@ -61,6 +62,12 @@ open class Expression(protected open var value: SQLiteral? = null) : SQLiteral {
                 right = right.toLiteral()
             )
         )
+    }
+
+    fun select(block: Select.() -> Unit): Select {
+        val select = Select().apply(block)
+        updateValue(select)
+        return select
     }
 
 
